@@ -1,0 +1,22 @@
+extend schema
+  @link(
+    url: "https://specs.apollo.dev/federation/v2.3"
+    import: ["@key", "@shareable", "@external", "@extends"]
+  )
+
+type Director @key(fields: "id") {
+  id: ID!
+  name: String
+  movieId: ID!
+  movie: Movie
+}
+
+type Movie @key(fields: "id") @extends {
+  id: ID! @external
+  director: Director
+}
+
+type Query {
+  director(id: ID!): Director
+  directors: [Director]
+}
