@@ -8,6 +8,7 @@ const gateway = new ApolloGateway({
         subgraphs: [
             { name: 'movies', url: 'http://localhost:4001' },
             { name: 'reviews', url: 'http://localhost:4002' },
+            { name: 'directors', url: 'http://localhost:8080'},
         ],
     }),
 });

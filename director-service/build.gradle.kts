@@ -1,10 +1,9 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
-	id("org.springframework.boot") version "2.7.15"
-	id("io.spring.dependency-management") version "1.0.15.RELEASE"
-	kotlin("jvm") version "1.6.21"
-	kotlin("plugin.spring") version "1.6.21"
+	kotlin("jvm") version "1.8.22"
+	kotlin("plugin.spring") version "1.8.22"
+	id("com.netflix.dgs.codegen") version "6.0.1"
 }
 
 group = "jimicloud"
@@ -19,26 +18,23 @@ repositories {
 }
 
 dependencies {
-	implementation("org.springframework.boot:spring-boot-starter-web")
-	implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
-	implementation("org.jetbrains.kotlin:kotlin-reflect")
-	implementation(platform("com.netflix.graphql.dgs:graphql-dgs-platform-dependencies:latest.release"))
-    implementation("com.netflix.graphql.dgs:graphql-dgs-spring-boot-starter")
-	testImplementation("org.springframework.boot:spring-boot-starter-test")
-}
+	implementation(platform("com.netflix.graphql.dgs:graphql-dgs-platform-dependencies:6.0.1"))
+	implementation("com.netflix.graphql.dgs:graphql-dgs-spring-boot-starter:6.0.1")
 
-@OptIn(kotlin.ExperimentalStdlibApi::class)
-tasks.withType<com.netflix.graphql.dgs.codegen.gradle.GenerateJavaTask> {
-	generateClient = true
-	packageName = "jimicloud.directorservice.generated"
+	implementation("org.springframework.boot:spring-boot-starter-web:2.6.3")
+	implementation("com.fasterxml.jackson.module:jackson-module-kotlin:2.13.0")
+	implementation("org.jetbrains.kotlin:kotlin-reflect")
+
+	testImplementation("org.springframework.boot:spring-boot-starter-test:2.6.3")
 }
 
 tasks.withType<KotlinCompile> {
-	kotlinOptions {
-		freeCompilerArgs = listOf("-Xjsr305=strict")
-		jvmTarget = "11"
-	}
+  kotlinOptions {
+    freeCompilerArgs += "-Xjsr305=strict"
+    jvmTarget = "17"
+  }
 }
+
 
 tasks.withType<Test> {
 	useJUnitPlatform()
